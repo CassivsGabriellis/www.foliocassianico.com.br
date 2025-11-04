@@ -60,9 +60,9 @@ jobs:
 
   # Deployment job
   deploy:
-    environment: production # Show the deployement version in the remote repository
     runs-on: ubuntu-latest
     needs: build
+    environment: production # Show the deployement version in the remote repository
     steps:
       - name: Download artifacts (Docker images) from previous workflows
         uses: actions/download-artifact@v4
