@@ -68,7 +68,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: github-pages
+      name: github-pages-production
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy to GitHub Pages
@@ -79,7 +79,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: production
+      name: s3-production
       url: ${{ vars.SITE_BASE_URL }}
     steps:
       - name: Download build artifact
