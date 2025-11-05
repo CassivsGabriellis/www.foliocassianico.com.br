@@ -1,4 +1,4 @@
-name: Deploy Hugo site to S3
+name: Deploy Hugo site to S3 and GitHub Pages
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  pages: write
   id-token: write
 
 concurrency:
@@ -37,6 +38,10 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
       - name: Build with Hugo
         env:
           HUGO_ENVIRONMENT: production
@@ -46,13 +51,29 @@ jobs:
             --minify \
             --baseURL "${{ vars.SITE_BASE_URL }}/"
 
+      # Artifact for S3 deployment
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: hugo-site
           path: ./public
 
-  deploy:
+      # Artifact for GitHub Pages deployment
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./public
+
+  deploy-pages:
+    runs-on: ubuntu-latest
+    needs: build
+    environment: github-pages
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  deploy-s3:
     runs-on: ubuntu-latest
     needs: build
     environment: production
