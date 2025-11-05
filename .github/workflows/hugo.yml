@@ -1,4 +1,5 @@
-name: Deploy Hugo site to S3 and GitHub Pages
+name: Deploy Hugo site to S3
+
 on:
   push:
     branches: ["main"]
@@ -6,7 +7,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
   id-token: write
 
 concurrency:
@@ -17,20 +17,17 @@ defaults:
   run:
     shell: bash
 
-# Build for S3 (production)
 jobs:
-  build-s3:
+  build:
     runs-on: ubuntu-latest
     env:
       HUGO_VERSION: ${{ vars.HUGO_VERSION }}
-      HUGO_ENVIRONMENT: production
-      HUGO_ENV: production
     steps:
       - name: Install Hugo CLI
         run: |
           wget -O ${{ runner.temp }}/hugo.deb \
             https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
-            && sudo dpkg -i ${{ runner.temp }}/hugo.deb
+          && sudo dpkg -i ${{ runner.temp }}/hugo.deb
 
       - name: Install Dart Sass
         run: sudo snap install dart-sass
@@ -40,79 +37,32 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Build with Hugo for S3
+      - name: Build with Hugo
+        env:
+          HUGO_ENVIRONMENT: production
+          HUGO_ENV: production
         run: |
           hugo \
             --minify \
             --baseURL "${{ vars.SITE_BASE_URL }}/"
 
-      - name: Upload build artifact for S3
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: hugo-site-s3
+          name: hugo-site
           path: ./public
 
-  # Build for GitHub Pages
-  build-pages:
+  deploy:
     runs-on: ubuntu-latest
-    env:
-      HUGO_VERSION: ${{ vars.HUGO_VERSION }}
-      HUGO_ENVIRONMENT: production
-      HUGO_ENV: production
-    steps:
-      - name: Install Hugo CLI
-        run: |
-          wget -O ${{ runner.temp }}/hugo.deb \
-            https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
-            && sudo dpkg -i ${{ runner.temp }}/hugo.deb
-
-      - name: Install Dart Sass
-        run: sudo snap install dart-sass
-
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v5
-
-      - name: Build with Hugo for GitHub Pages
-        run: |
-          hugo \
-            --minify \
-            --baseURL "${{ vars.GH_PAGES_URL }}/"
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: ./public
-
-  # Deploy to GitHub Pages
-  deploy-pages:
-    runs-on: ubuntu-latest
-    needs: build-pages
+    needs: build
     environment:
-      name: github-pages-production
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-
-  # Deploy to S3
-  deploy-s3:
-    runs-on: ubuntu-latest
-    needs: build-s3
-    environment:
-      name: s3-production
+      name: production
       url: ${{ vars.SITE_BASE_URL }}
     steps:
-      - name: Download build artifact for S3
+      - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
-          name: hugo-site-s3
+          name: hugo-site
           path: ./public
 
       - name: Configure AWS credentials
@@ -130,4 +80,4 @@ jobs:
       # - name: Invalidate CloudFront cache
       #   run: aws cloudfront create-invalidation \
       #     --distribution-id ${{ vars.CF_DISTRIBUTION_ID }} \
-      #     --paths "/*"
+      #     --paths "/*"```

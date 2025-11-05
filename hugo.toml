@@ -48,19 +48,19 @@ url = "https://github.com/CassivsGabriellis"
 # Main menu pages
 [[params.menu]]
 name = "home"
-url = ""
+url = "/"
 
 [[params.menu]]
 name = "projects"
-url = "projects"
+url = "/projects"
 
 [[params.menu]]
 name = "posts"
-url = "posts"
+url = "/posts"
 
 [[params.menu]]
 name = "about"
-url = "about"
+url = "/about"
 
 # Syntax highlight on code blocks
 [markup]
