@@ -1,4 +1,4 @@
-# baseURL = 'http://foliocassianico.com.s3-website-sa-east-1.amazonaws.com'
+baseURL = 'https://www.foliocassianico.com.br'
 languageCode = 'en'
 title = 'Cássio Gabriel'
 theme = 'typo'

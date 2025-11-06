@@ -1,4 +1,4 @@
-name: Deploy Hugo site to S3 and GitHub Pages
+name: Deploy Hugo site to S3/CloudFront and GitHub Pages
 
 on:
   push:
