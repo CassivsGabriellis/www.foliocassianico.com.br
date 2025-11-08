@@ -90,7 +90,7 @@ theme = "preferred_color_scheme"
 # url = ''
 
 # If using CloudFront CDN, deploy will invalidate the cache as needed.
-# cloudFrontDistributionID = ''
+# cloudFrontDistributionID = '' 
 
 [[deployment.matchers]]
 # Cache static assets for 20 years.
