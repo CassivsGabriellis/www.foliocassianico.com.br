@@ -90,7 +90,7 @@ name = 'production'
 url = 's3://foliocassianico.com?region=sa-east-1'
 
 # If using CloudFront CDN, deploy will invalidate the cache as needed.
-cloudFrontDistributionID =	"E2NSG34ZM98NK3"
+cloudFrontDistributionID =	"E3G12X4VILVRGQ"
 
 [[deployment.matchers]]
 # Cache static assets for 20 years.
