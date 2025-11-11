@@ -4,11 +4,7 @@
     {{ partial "functions/get_hook.html" (dict "hook" "footer_start" "context" .) }}
 
     {{ if not .Site.Params.footerContent }}
-    <p>Powered by
-        <a href="https://gohugo.io/">Hugo</a>
-        and
-        <a href="https://github.com/tomfran/typo">tomfran/typo</a>
-    </p>
+    <p>© 2025 Cássio Gabriel</p>
     {{ end }}
     
     {{ with .Site.Params.footerContent }}

@@ -18,11 +18,15 @@ hideHeader = false
 # Intro on main page, content is markdown
 homeIntroTitle = 'Welcome!'
 homeIntroContent = """
-Hi, I'm Cássio — a developer focused on cloud solutions, automation, and DevOps practices. I work at the intersection of software and infrastructure, building scalable and reliable systems.
+Hi, I'm Cássio — a developer and aspiring cloud architect passionate about building reliable, automated, and scalable systems.
+I've gained strong hands-on experience through personal and practical projects involving Linux servers, AWS, and Azure, using tools like Docker, Kubernetes, Ansible, Terraform, and GitHub Actions to design CI/CD pipelines and manage infrastructure as code.
+I enjoy working across the stack, coding primarily in Python, Go, and Bash, and applying DevOps and cloud-native principles to create environments that are efficient, consistent, and easy to maintain.
 
-I have hands-on experience with AWS, Linux servers, and tools like Docker, Docker Compose, Ansible, and Terraform. I use GitHub Actions for CI/CD pipelines and have practical experience with Kubernetes for container orchestration.
+Take a look at my [projects](https://www.foliocassianico.com.br/projects)!
 
-I code mainly in Golang, Python and Bash, and design backend architectures using PostgreSQL, MySQL, and MongoDB. My goal is always to deliver efficient, automated, and maintainable cloud environments.
+Get in touch!
+- [E-mail](mailto:cassiogabrielcontato@gmail.com)
+- [LinkedIn](https://www.linkedin.com/in/cassivs-contato/)
 """
 
 # Collection to display on home
