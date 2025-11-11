@@ -3,8 +3,6 @@
 `AddIndexHtmlToDirectoriesEdge` — a Python Lambda@Edge function that automatically rewrites clean URLs (like /posts or /about) to their corresponding directory index files (/posts/index.html, /about/index.html), ensuring static pages resolve correctly within the CloudFront + S3 architecture.
 
 ```python
-import json
-
 def lambda_handler(event, context):
     # Extract the request from the CloudFront event
     cf_record = event['Records'][0]['cf']
