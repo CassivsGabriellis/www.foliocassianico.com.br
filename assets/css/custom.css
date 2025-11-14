@@ -42,7 +42,6 @@
   text-decoration: none;
 }
 
-/* Imagens dentro do post: nunca maiores que a tela */
 .single-content img,
 .single-content figure img {
   max-width: 100%;
@@ -50,14 +49,12 @@
   display: block;
 }
 
-/* Blocos de código: rolagem horizontal própria, não da página inteira */
 .single-content pre {
   max-width: 100%;
   overflow-x: auto;
   box-sizing: border-box;
 }
 
-/* Tabelas também podem estourar – protege elas */
 .single-content table {
   width: 100%;
   border-collapse: collapse;
@@ -66,7 +63,6 @@
 }
 
 @media (max-width: 960px) {
-  /* layout vira coluna e ocupa 100% da largura da tela */
   .single-layout {
     flex-direction: column;
     width: 100%;
@@ -95,12 +91,10 @@
     overflow: visible;
   }
 
-  /* um pouquinho de respiro nas bordas */
   .single-content {
     padding-inline: 0.75rem;
   }
 
-  /* garantem que nada passe da largura do container */
   .single-content img,
   .single-content figure img {
     max-width: 100%;
