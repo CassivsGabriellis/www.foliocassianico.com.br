@@ -3,21 +3,20 @@
 
   {{ range .AllTranslations }}
     <a href="{{ .RelPermalink }}" class="lang-link {{ if eq .Lang $currentLang }}active-lang{{ end }}">
-      {{ if eq .Lang "en" }}EN{{ else if eq .Lang "pt-br" }}PT{{ else }}{{ upper .Lang }}{{ end }}
+      {{ if eq .Lang "en" }}EN{{ else if eq .Lang "pt-br" }}PT(BR){{ else }}{{ upper .Lang }}{{ end }}
     </a>
   {{ end }}
 </div>
 
 <style>
-  /* garante que o header seja o “referencial” do absolute */
   .header {
     position: relative;
   }
 
   .language-switcher {
     position: absolute;
-    top: 2.8rem;          
-    left: 50%;
+    top: 3.5rem;          
+    left: 40%;
     transform: translateX(250px); 
     z-index: 50;
 

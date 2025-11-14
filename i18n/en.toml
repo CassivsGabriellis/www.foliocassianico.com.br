@@ -19,3 +19,17 @@ other = "here"
 other = "to return home"
 
 ###############################
+
+[readingTime]
+other = "min read"
+
+[tocTitle]
+other = "Table of contents"
+
+[lastUpdated]
+other = "Last updated"
+
+[publishedOn]
+other = "Published on"
+
+############################### 

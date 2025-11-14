@@ -25,7 +25,6 @@ contentDir = 'content/en'
   name = "posts"
   url  = "/en/posts"
 
-
 [languages.pt-br]
 languageName = 'Português (Brasil)'
 weight = 2
@@ -88,6 +87,14 @@ url = "https://github.com/CassivsGabriellis"
 [markup.highlight]
 style = 'catppuccin-macchiato'
 
+# Get Git info
+enableGitInfo = true
+
+[frontmatter]
+  date = [':filename',':default']
+  lastmod = [':git', 'lastmod', 'modified', ':fileModTime', ':default']
+  publishDate = [':filename', ':default']
+  
 # Giscus comments
 [params.giscus]
 enable = false

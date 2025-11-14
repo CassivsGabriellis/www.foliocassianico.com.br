@@ -1,5 +1,9 @@
+###############################
+
 [back_to_top]
 other = "voltar ao topo"
+
+###############################
 
 [404_title]
 other = "typo?"
@@ -12,3 +16,19 @@ other = "aqui"
 
 [404_back_home_plus]
 other = "para voltar ao início!"
+
+###############################
+
+[readingTime]
+other = "min de leitura"
+
+[tocTitle]
+other = "Sumário"
+
+[lastUpdated]
+other = "Última atualização"
+
+[publishedOn]
+other = "Publicado em"
+
+###############################

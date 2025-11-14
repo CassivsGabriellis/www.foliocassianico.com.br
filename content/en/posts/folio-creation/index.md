@@ -251,7 +251,7 @@ Allows the workflow to invalidate the CDN after deploying fresh content:
         }
     ]
 }
-````
+```
 
 ---
 
@@ -284,10 +284,7 @@ This IAM Role trusts only **GitHub Actions** from the exact repository responsib
 
 This ensures:
 
-* Only **GitHub Actions** for this exact repository
-* Can assume this IAM Role
-* Using short-lived, automatically rotated credentials
-* With zero long-term AWS keys stored anywhere
+* Only **GitHub Actions** for this exact repository can assume this IAM Role using short-lived, automatically rotated credentials with zero long-term AWS keys stored anywhere
 
 ---
 
@@ -333,3 +330,5 @@ This architecture provides:
 It’s a low-maintenance, cost-efficient, production-grade setup for a personal or professional portfolio.
 
 If you're building your own static site, I highly recommend experimenting with Hugo, S3, CloudFront, Lambda@Edge, and GitHub Actions — it's a powerful combination.
+
+>> You can see the remote repository of this project [here](https://github.com/CassivsGabriellis/www.foliocassianico.com.br).
