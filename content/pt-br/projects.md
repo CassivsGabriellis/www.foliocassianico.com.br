@@ -8,6 +8,9 @@ readTime = false
 translationKey = 'projects-page'
 +++
 
+[API de métricas em AWS EC2 com FastAPI, k3s (Kubernetes), Terraform, Ansible e CI/CD com GitHub Actions]({{< ref "posts/api-k8s-cluster/index.md" >}})
+- _API em FastAPI executando em um cluster k3s dentro de uma instância AWS EC2, expondo métricas de performance da máquina e da aplicação, provisionada com Terraform, configurada com Ansible e atualizada via GitHub Actions._
+
 [www.foliocassianico.com.br]({{< ref "posts/folio-creation/index.md" >}})
 - _A arquitetura do meu site "fólio"_
 
