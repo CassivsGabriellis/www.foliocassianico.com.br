@@ -90,20 +90,16 @@ The API design serves the following *endpoints*:
     ```
 
 The following dependencies are used as requirements for the API to run, located in a `.txt` file in the root of the project repository:
-````
-
+```
 fastapi==0.121.3
 uvicorn[standard]==0.38.0
 psutil==7.1.3
 python-dotenv==1.2.1
-
 ```
 
 To test locally, I used [Uvicorn](https://uvicorn.dev/), a server implementation based on the [ASGI](https://en.wikipedia.org/wiki/Asynchronous_Server_Gateway_Interface) protocol, in order to use the `/docs` section of FastAPI:
 ```
-
 uvicorn app.main:app --reload
-
 ````
 
 The repository with the API code can be accessed [here](https://github.com/CassivsGabriellis/metrics-api-k8s-cluster-performance/tree/main/app).
