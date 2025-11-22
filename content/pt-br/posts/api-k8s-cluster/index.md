@@ -24,7 +24,9 @@ Objetivamente, desenvolvi uma API em Python (FastAPI) que coleta métricas da in
 
 ### Diagrama de arquitetura do projeto
 
-![](images/metrics-api-k3s-ec2-architecture.png)
+![](images/metrics-api-k3s-ec2-cicd-architecture.png "Diagrama feito com a biblioteca Diagrams (Diagram as Code)")
+
+---
 
 ## API com FastAPI
 
@@ -89,10 +91,10 @@ O design da API serve os seguintes *endpoints*:
 
 As seguintes dependências são utilizadas como requisitos para que a API seja executada, estando localizadas em um arquivo `.txt` na raiz do repositório do projeto:
 ```
-fastapi
-uvicorn[standard]
-psutil
-python-dotenv
+fastapi==0.121.3
+uvicorn[standard]==0.38.0
+psutil==7.1.3
+python-dotenv==1.2.1
 ```
 
 Para testar localmente, utilizei o [Uvicorn](https://uvicorn.dev/), uma implementação de servidor baseado no protocolo [ASGI](https://en.wikipedia.org/wiki/Asynchronous_Server_Gateway_Interface), em vistas de utilizar a seção `/docs` do FastAPI:
@@ -174,7 +176,7 @@ docker run --rm -p 8000:8000 cassiano00/metrics-api:latest
 docker push cassiano00/metrics-api:latest
 ```
 
-![image1](images/running-locally-docker.png "Container Docker do projeto rodando localmente")
+![](images/running-locally-docker.png)
 
 ---
 
@@ -198,9 +200,9 @@ Aplicando as configurações presentes no arquivo `namespace.yaml`:
 kubectl apply -f k8s/namespace.yaml
 ```
 
-![image2](images/kubeclt-command-1.png "metrics-api")
+![](images/kubeclt-command-1.png)
 
-Em seguida, definino o `deployment.yaml`, recurso central no Kubernetes responsável por gerenciar e manter a aplicação em execução de forma declarativa. No Deployment, configuro o lançamento de uma réplica, visto que é um ambiente de teste. Especifico a imagem Docker construída anteriormente e adiciono _probes_ de liveness e readiness apontando para o endpoint `/health`. Essas _probes_ são essenciais para que o Kubernetes detecte automaticamente falhas de containers e garanta que somente instâncias saudáveis recebam tráfego. Além disso, configuro _requests_ e _limits_ de CPU e memória, evitando que o container consuma mais recursos do que deveria — o que é crítico em ambientes pequenos como um EC2 de baixo custo.
+Em seguida, definino o `deployment.yaml`, recurso central no Kubernetes responsável por gerenciar e manter a aplicação em execução de forma declarativa. No Deployment, configuro o lançamento de 1 (uma) réplica, visto que é um ambiente de teste. Especifico a imagem Docker construída anteriormente e adiciono _probes_ de liveness e readiness apontando para o endpoint `/health`. Essas _probes_ são essenciais para que o Kubernetes detecte automaticamente falhas de containers e garanta que somente instâncias saudáveis recebam tráfego. Além disso, configuro _requests_ e _limits_ de CPU e memória, evitando que o container consuma mais recursos do que deveria — o que é crítico em ambientes pequenos como um EC2 de baixo custo.
 
 ```yaml
 apiVersion: apps/v1
@@ -259,7 +261,7 @@ Executando as configurações:
 ```bash
 kubectl apply -f k8s/deployment.yaml
 ```
-![image3](images/kubeclt-command-2.png "metrics-api-deployment")
+![](images/kubeclt-command-2.png)
 
 Com o Deployment definido, crio um `service.yaml` do tipo **ClusterIP** para fornecer um _endpoint_ interno estável que abstrai os pods. O Service expõe a porta `80` internamente e repassa chamadas para a porta `8000` do container, padronizando o acesso e permitindo que outros componentes, como o [Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/), interajam com o backend sem depender da estrutura interna do Deployment. Esta é uma boa prática de isolamento em clusters.
 
@@ -284,7 +286,7 @@ Aplicando as configurações:
 ```bash
 kubectl apply -f k8s/service.yaml
 ```
-![image4](images/kubeclt-command-3.png "metrics-api-service")
+![](images/kubeclt-command-3.png)
 
 Finalizando a camada Kubernetes, implemento o arquivo `ingress.yaml`, responsável por fornecer uma interface HTTP externa ao cluster por meio do NGINX Ingress Controller. No ambiente local, onde o Minikube está sendo executado com driver Docker no Windows, o acesso direto ao IP interno do cluster não é possível. Por isso, utilizo o **`minikube tunnel`**, que cria uma rota entre o host e o Ingress Controller, expondo o tráfego de entrada de forma confiável em `127.0.0.1`.
 
@@ -317,14 +319,14 @@ Executando as configurações:
 ```bash
 kubectl apply -f k8s/ingress.yaml
 ```
-![image5](images/kubeclt-command-4.png "metrics-api-ingress")
+![](images/kubeclt-command-4.png)
 
 Testando o endpoint via comando `curl`:
 ```bash
 curl http://127.0.0.1/health
 curl http://127.0.0.1/metrics/system
 ```
-![image6](images/kubeclt-command-5.png "Demonstração da API via `curl`")
+![](images/kubeclt-command-5.png)
 
 ---
 
@@ -495,12 +497,14 @@ terraform apply
 
 O ambiente foi devidamente provisionado na AWS:
 
-![image7](images/terraform-apply-config.png "Informação de provisão do Terraform")
-![image8](images/created-instance-after-terraform-apply.png "Instância AWS EC2 criada")
+![](images/terraform-apply-config.png)
+![](images/created-instance-after-terraform-apply.png)
 
 O restante das configurações em código do Terraform podem ser acessadas [aqui](https://github.com/CassivsGabriellis/metrics-api-k8s-cluster-performance/tree/main/infra/terraform).
 
-## Automatizando as configurações com Ansible
+---
+
+## Implementando as configurações com Ansible
 
 Com a infraestrutura provisionada, avancei para a etapa de automação da configuração do nó Kubernetes utilizando Ansible. Minha meta era transformar uma instância recém-criada em um nó Kubernetes funcional, pronto para receber workloads, sem qualquer configuração manual. Estruturei um playbook que executa desde a atualização de pacotes e instalação de dependências base, até a configuração completa do runtime de containers e da própria distribuição k3s. Instalei o Docker para garantir suporte a workloads baseados em containerd e compatibilidade com ferramentas de desenvolvimento, e, em seguida, executei o script oficial de instalação do k3s com opções específicas — incluindo a desativação do Traefik, preservando o cluster limpo para implementações posteriores.
 
@@ -620,12 +624,14 @@ Assim, com as configurações dadas, executo o comando para o Ansible aplicá-la
 ```
 ansible-playbook -i inventory.ini playbook.yaml
 ```
-![image8](images/ansible-config-success.png)
+![](images/ansible-config-success.png)
 
 Após a instalação do k3s via Ansible, mantive a kubeconfig padrão gerada pelo serviço em `/etc/rancher/k3s/k3s.yaml`, sem modificar o endpoint `127.0.0.1:6443`, uma vez que a administração do cluster será realizada diretamente dentro da própria instância EC2, utilizando `kubectl`. Durante a automação, o playbook cuidou da instalação do Docker, da ativação do k3s como serviço, da configuração dos binários e symlinks necessários para o uso do cliente kubectl, garantindo que todos os utilitários essenciais estivessem disponíveis para o usuário padrão da máquina. Ao final dessa etapa, a instância EC2 já operava como um nó Kubernetes funcional, inicializado e pronto para receber aplicações e deployments automatizados via pipeline CI/CD.
 
 Para verificar o estado atual da instância, fiz um acesso via SSH, para averiguar o node sendo executado dentro dela:
-![image9](images/ssh-instance-access.png "k3s node running inside the EC2 instance")
+![](images/ssh-instance-access.png)
+
+---
 
 ## Pipeline CI/CD com GitHub Actions
 
@@ -805,8 +811,8 @@ Além de servir a API externamente, a instância também é o ponto central para
 
   ```bash
   # Port-forward of the Service to the local machine (inside EC2)
-  kubectl port-forward svc/metrics-api-service -n metrics-api 8080:80
-  curl http://127.0.0.1:8080/health
+  kubectl port-forward svc/metrics-api-service -n metrics-api 8000:80
+  curl http://127.0.0.1:8000/health
 
   # Direct call from inside the pod
   kubectl exec -it -n metrics-api <pod-name> -- curl -s http://127.0.0.1:8000/health
@@ -822,7 +828,7 @@ A forma como a instância foi desenhada permite uma série de evoluções natura
   O cluster k3s atual pode receber um stack de observabilidade (como kube-prometheus-stack ou Prometheus Operator) para coletar métricas tanto da infraestrutura quanto da API. O Ingress Controller já oferece um ponto de entrada HTTP que pode ser reutilizado para expor dashboards ou endpoints de métricas.
 
 * **TLS e domínio customizado (HTTPS):**
-  Como a API já está exposta por um Elastic IP, é simples criar um registro DNS em um domínio próprio (via Route 53 ou outro provedor) apontando para esse IP. Em seguida, basta adicionar um novo Ingress com host definido (por exemplo, `api.metrics.meudominio.com`) e integrar um emissor de certificados (como cert-manager + Let’s Encrypt) para servir tráfego HTTPS.
+  Como a API já está exposta por um Elastic IP, é simples criar um registro DNS em um domínio próprio (via Route 53 ou outro provedor) apontando para esse IP. Em seguida, basta adicionar um novo Ingress com host definido (por exemplo, `api.metrics.meudominio.com`) e integrar um emissor de certificados (como AWS Certificate Manager ou Let's Encrypt) para servir tráfego HTTPS.
 
 * **Ampliação do cluster e novos serviços:**
   A instância atual pode ser o ponto de partida para hospedar outros microservices relacionados a métricas, dashboards ou APIs auxiliares. Novos namespaces, Deployments e Services podem ser adicionados ao cluster, todos expostos via NGINX Ingress Controller com regras específicas de rota e host.
