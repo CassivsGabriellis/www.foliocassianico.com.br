@@ -4,13 +4,9 @@ title: "Home"
 
 # Welcome!
 
-Hi, I’m Cássio — a Cloud and DevOps Engineer in development, passionate about automation, cloud architecture, and building reliable, scalable systems. Although I currently work as a bilingual support analyst, I’ve been dedicating my career to mastering modern cloud engineering through practical projects, structured studies, and hands-on experimentation.
+I'm Cássio, a Cloud & DevOps Engineer in development, specializing in automation and cloud infrastructure. I have experience with AWS, Azure, GCP, Linux, Docker, Kubernetes, Terraform, and Ansible to build scalable and automated environments. I develop CI/CD pipelines using GitHub Actions and work with monitoring and observability tools such as Grafana, Prometheus, ELK/EFK, and CloudWatch.
 
-I work extensively with AWS, Azure, Linux, Docker, Kubernetes (including Helm), Terraform, and Ansible, applying these tools to create automated, reproducible, and resilient environments. I also build CI/CD pipelines with GitHub Actions and have experience integrating GitLab with Jenkins for automated builds, releases, and deployments across development, staging, and production.
-
-My technical background includes Shell scripting, Python, and Terraform for provisioning, automation tooling, and cloud-environment migration. I’m familiar with microservices architecture, networking fundamentals, Linux/Windows systems, and databases such as PostgreSQL, MySQL, MongoDB, and Oracle. I also work with monitoring and observability stacks like Grafana, ELK/EFK, Zabbix, and CloudWatch to ensure system performance and reliability.
-
-I’m currently pursuing a full transition into Cloud/DevOps engineering, aiming to design and automate efficient, modern, and scalable cloud solutions.
+I'm focused on delivering efficient, modern, and reliable solutions as I advance my full transition into Cloud/DevOps.
 
 Take a look at my [projects]({{< ref "projects" >}})!
 
